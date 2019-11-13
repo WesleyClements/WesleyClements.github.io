@@ -37,6 +37,14 @@
 	color: #0096cc;
 }
 
+.project-deployment-link {
+	text-decoration: none;
+}
+.project-deployment-link:hover {
+	text-decoration: none;
+	color: #0096cc;
+}
+
 .footer-link {
 	text-decoration: none;
 }
