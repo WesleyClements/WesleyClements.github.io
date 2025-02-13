@@ -24,6 +24,14 @@ jobs:
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
+      - name: Cache Dependencies
+        uses: actions/cache@v4
+        with:
+          key: ${{ runner.os }}-deno-${{ hashFiles('**/deno.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-deno-
+          path: |
+            ~/.cache/deno
       - name: Install Dependencies
         run: deno install
       - name: Build Site
