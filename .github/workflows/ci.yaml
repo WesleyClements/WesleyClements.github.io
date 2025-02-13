@@ -1,5 +1,6 @@
 # Variables:
 #   SITE_URL: The URL of the deployed site.
+name: CI
 on:
   push:
     branches: [main]
