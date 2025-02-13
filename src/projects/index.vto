@@ -1,0 +1,102 @@
+---
+layout: layouts/main.vto
+title: "Wesley Clements: Projects"
+projects:
+  - name: "node portfolio"
+    github: "https://github.com/WesleyClements/node-portfolio"
+    description: "This is a Node.js based portfolio which queries the GitHub API to dynamically update the list of repositories displayed. It uses Express for routing, Handlebars for rendering, and axios to query the API."
+  - name: "burger"
+    github: "https://github.com/WesleyClements/burger"
+    description: "This Node.js app allows the user to add burgers to a global wish list and then to mark them as consumed. It uses Express for routing, Handlebars for rendering, and a custom ORM built on mySQL for data management."
+    deployment: "https://burger420.herokuapp.com/"
+  - name: "friend finder"
+    github: "https://github.com/WesleyClements/friend-finder"
+    description: "This Node.js app allows users to take a survey in order to be matched with their most compatible friend. It uses jQuery and Express."
+    deployment: "https://friend-finder-420.herokuapp.com/"
+  - name: "bamazon"
+    github: "https://github.com/WesleyClements/bamazon"
+    description: "This Node.js app simulates purchase requests to a SQL product database."
+  - name: "node word guess"
+    github: "https://github.com/WesleyClements/node-word-guess"
+    description: "This is a Node.js CLI hangman game that uses inquirer for input."
+  - name: "liri node app"
+    github: "https://github.com/WesleyClements/liri-node-app"
+    description: "This is a Node.js CLI app that uses Ajax to query Bandsintown, Spotify, and OMDB APIs to get info the user requests."
+  - name: "RPS Multiplayer"
+    github: "https://github.com/WesleyClements/RPS-Multiplayer"
+    description: "This is a multiplayer rock paper scissors uses Firebase firestore to handle data and jQuery on the front end."
+    deployment: "https://wesleyclements.github.io/RPS-Multiplayer/"
+  - name: "MoviStream"
+    github: "https://github.com/WesleyClements/MoviStream"
+    description: "This app combines the Wikipedia, OMDB, and YouTube apis to allow users to find any and all public domain movies on YouTube. Uses jQuery and Ajax."
+    deployment: "https://wesleyclements.github.io/MoviStream/"
+  - name: "TriviaGame"
+    github: "https://github.com/WesleyClements/TriviaGame"
+    description: "This is a trivia game which utilizes JavaScript constructor functions and jQuery."
+    deployment: "https://wesleyclements.github.io/TriviaGame/"
+  - name: "GifTastic"
+    github: "https://github.com/WesleyClements/GifTastic"
+    description: "This app gets gifs from the GIPHY api using ajax and jQuery with a Bootstrap front."
+    deployment: "https://wesleyclements.github.io/GifTastic/"
+  - name: "unit 4 game"
+    github: "https://github.com/WesleyClements/unit-4-game"
+    description: "This is a Star Wars themed game that uses jQuery with a Bootstrap front."
+    deployment: "https://wesleyclements.github.io/unit-4-game/"
+  - name: "Psychic Game"
+    github: "https://github.com/WesleyClements/Psychic-Game"
+    description: "This is a hangman like html game written in raw JavaScript with a Bootstrap front."
+    deployment: "https://wesleyclements.github.io/Psychic-Game/"
+  - name: "Bootstrap Portfolio"
+    github: "https://github.com/WesleyClements/Bootstrap-Portfolio"
+    description: "This is a simple portfolio example using Bootstrap and some CSS."
+    deployment: "https://wesleyclements.github.io/Bootstrap-Portfolio/"
+  - name: "Basic Portfolio"
+    github: "https://github.com/WesleyClements/Basic-Portfolio"
+    description: "This is a simple portfolio example using only simple HTML and CSS."
+    deployment: "https://wesleyclements.github.io/Basic-Portfolio/"
+---
+
+<header class="jumbotron jumbotron-fluid text-center border-bottom mb-0 py-4" style="background-color: #f4f7f9;">
+  <div class="container text-left px-3">
+    <div class="header-name dark-grey">
+      <h1 class="display-4">Projects</h1>
+    </div>
+    <h2 class="lead header-description dark-grey">
+      {Insert Desire for Collaboration}
+    </h2>
+  </div>
+</header>
+<div class="container my-4">
+  <ul class="list-group list-group-flush">
+    {{ for project of projects }}
+    <li class="list-group-item px-0">
+      <div class="row my-2">
+        <div class="col-sm-4">
+
+        </div>
+        <div class="col-sm-8">
+          <div class="mb-4">
+            <h3 class="text-capitalize mb-1">
+              {{ project.name }}
+            </h3>
+            <a class="font-italic" href="{{ project.github }}" target="_blank">
+              <small>
+                {{ project.github }}
+              </small>
+            </a>
+          </div>
+          {{ if project.deployment }}
+          <a class="project-deployment-link dark-grey" href="{{ project.deployment}}" target="_blank">
+            {{ project.description }}
+          </a>
+          {{ else }}
+          <div class="dark-grey">
+            {{ project.description }}
+          </div>
+          {{ /if }}
+        </div>
+      </div>
+    </li>
+    {{ /for }}
+  </ul>
+</div>
