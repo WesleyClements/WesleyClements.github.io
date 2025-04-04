@@ -3,8 +3,8 @@ title: Automating Godot Builds with Github Actions
 tags:
   - Godot
   - Github Actions
-  - Dockery
   - CI/CD
+draft: true
 ---
 
 yes I do agree

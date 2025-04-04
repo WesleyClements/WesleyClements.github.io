@@ -3,8 +3,8 @@ title: Wesley Clements
 siteLinks:
   - text: Projects
     url: /projects
-  - text: Blog
-    url: /blog
+#  - text: Blog
+#    url: /blog
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -26,16 +26,20 @@ siteLinks:
   <title>{{ title }}</title>
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
   <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+    {{ if url === "/" }}
+    <div class="navbar-brand"></div>
+    {{ else }}
     <a class="navbar-brand" href="/">Wesley Clements</a>
+    {{ /if }}
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto">
+      <ul class="navbar-nav ml-auto align-items-end">
         {{ for link of siteLinks }}
         <li class="nav-item px-3">
           <a class="nav-link" href="{{ `${ siteUrl.pathname === "/" ? "" : siteUrl.pathname }${ link.url }` }}">{{ link.text }}</a>
@@ -44,7 +48,7 @@ siteLinks:
       </ul>
     </div>
   </nav>
-  <main>
+  <main class="flex-grow-1">
     {{ content }}
   </main>
   <footer class="footer mt-auto py-2 border-top border-light-gray">
