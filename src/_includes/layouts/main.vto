@@ -2,7 +2,7 @@
 title: Wesley Clements
 siteLinks:
   - text: Projects
-    url: projects
+    url: /projects
 #  - text: Blog
 #    url: /blog
 ---
@@ -50,8 +50,8 @@ siteLinks:
           {{ for link of siteLinks }}
           <li>
             <a
-              class="hover:underline"
-              href="{{ `${ siteUrl.pathname === " /" ? "" : siteUrl.pathname }${ link.url }` }}"
+              class="{{ url === `${link.url}/` ? "text-gray-900 font-bold" : "text-gray-500 hover:text-gray-900 hover:underline" }}"
+              href="{{ `${ siteUrl.pathname === "/" ? "" : siteUrl.pathname }${ link.url }` }}"
             >
               {{ link.text }}
             </a>
