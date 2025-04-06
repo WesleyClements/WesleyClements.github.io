@@ -3,5 +3,8 @@
     "lume"
   ],
   "deno.config": "./deno.json",
-  "livePreview.serverRoot": "_site"
+  "livePreview.serverRoot": "_site",
+  "tailwindCSS.includeLanguages": {
+    "vento": "html"
+  }
 }

@@ -2,8 +2,15 @@
 title: "Wesley Clements: Blog"
 ---
 
-{{ for post of search.pages("url^=/blog/ url!=/blog/") }}
-<div>
-  <a href="{{ post.url }}"><h2>{{ post.title }}</h2></a>
-</div>
-{{ /for }}
+<ul class="w-fit mx-auto px-4 py-4 text-gray-900 divide-y-2 divide-gray-300">
+  {{ for post of search.pages("url^=/blog/ url!=/blog/") }}
+  <li class="max-w-prose box-content px-16 pb-2 pt-4 first:pt-0">
+      <a
+        class="underline hover:text-cyan-600"
+        href="{{ post.url }}"
+      >
+        <h3 class="text-2xl">{{ post.title }}</h3>
+      </a>
+  </li>
+  {{ /for }}
+</ul>

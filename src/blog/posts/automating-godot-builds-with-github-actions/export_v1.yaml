@@ -1,0 +1,66 @@
+name: Godot Export
+on:
+  workflow_dispatch:
+    inputs:
+      godot-version:
+        description: 'The version of Godot to use'
+        type: choice
+        required: true
+        default: '4.4'
+        options:
+          - '4.4'
+          - '4.3'
+jobs:
+  export:
+    name: Export
+    runs-on: ubuntu-latest
+    env:
+      ENGINE_FILE: Godot_v${{ inputs.godot-version }}-stable_linux.x86_64
+      TEMPLATE_ZIP: Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
+      TEMPLATE_DIR: ~/.local/share/godot/export_templates/${{ inputs.godot-version }}.stable
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - name: Download Godot
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: godotengine/godot
+          tag: ${{ inputs.godot-version }}-stable
+          filename: ${{ env.ENGINE_FILE }}.zip
+          extract: true
+
+      - name: Make Godot Executable
+        shell: bash
+        run: |
+          mv ${{ env.ENGINE_FILE }} godot_stable_linux.x86_64
+          chmod +x godot_stable_linux.x86_64
+
+      - name: Download Godot Templates
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: godotengine/godot
+          tag: ${{ inputs.godot-version }}-stable
+          filename: ${{ env.TEMPLATE_ZIP }}
+
+      - name: Extract Godot Templates
+        shell: bash
+        run: |
+          mkdir -p ${{ env.TEMPLATE_DIR }}
+          unzip -j ${{ env.TEMPLATE_ZIP }} templates/* -d ${{ env.TEMPLATE_DIR }}
+
+      - name: Export Project
+        shell: bash
+        env:
+          EXPORT_PRESET: Web
+        run: |
+          mkdir -p build/web
+          ./godot_stable_linux.x86_64 --headless --verbose --export-release "${{ env.EXPORT_PRESET }}"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web
+          path: build/web

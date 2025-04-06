@@ -1,61 +1,49 @@
-.header-img {
-	background-color: #fff;
-	border-style: solid;
-	border-width: 1px;
-	margin: 2px 0px;
-}
-.header-img:hover {
-	border-style: solid;
-	border-width: 3px;
-	margin: 0px 0px;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@media (prefers-color-scheme: dark) {
+	.shiki-light {
+		display: none;
+	}
 }
 
-.header-name {
-	text-decoration: none;
-}
-.header-name:visited {
-	text-decoration: none;
-}
-.header-name:hover {
-	text-decoration: none;
-	color: #222;
+@media (prefers-color-scheme: light),
+(prefers-color-scheme: no-preference) {
+	.shiki-dark {
+		display: none;
+	}
 }
 
-.header-description {
-	font-size: 1.5rem;
-}
+.shiki {
+	padding: 1.0rem;
+	border-radius: 0.5rem;
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+	overflow-x: auto;
 
-.bio-text {
-	line-height: 1.8rem;
-}
+	scrollbar-color: var(--shiki-scrollbar-color) transparent;
 
-.contact-link {
-	text-decoration: none;
-}
-.contact-link:hover {
-	text-decoration: none;
-	color: #0096cc;
-}
+	&.shiki-light {
+		--shiki-scrollbar-color: rgba(0, 0, 0, 0.5);
 
-.project-deployment-link {
-	text-decoration: none;
-}
-.project-deployment-link:hover {
-	text-decoration: none;
-	color: #0096cc;
-}
+		&::hover {
+			--shiki-scrollbar-color: rgba(0, 0, 0, 0.7);
+		}
+	}
 
-.footer-link {
-	text-decoration: none;
-}
-.footer-link:hover {
-	text-decoration: none;
-	color: #0074d9;
-}
-.dark-grey {
-	color: #111;
-}
+	&.shiki-dark {
+		--shiki-scrollbar-color: rgba(255, 255, 255, 0.5);
 
-.grey {
-	color: #6c757d;
+		&::hover {
+			--shiki-scrollbar-color: rgba(255, 255, 255, 0.7);
+		}
+	}
+
+	@media (width < 1040px) {
+		& {
+			border-radius: 0;
+		}
+	}
 }

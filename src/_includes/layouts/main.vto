@@ -2,7 +2,7 @@
 title: Wesley Clements
 siteLinks:
   - text: Projects
-    url: /projects
+    url: projects
 #  - text: Blog
 #    url: /blog
 ---
@@ -19,75 +19,85 @@ siteLinks:
     media="all">
   <link rel="stylesheet" href="https://kit-free.fontawesome.com/releases/latest/css/free-v4-shims.min.css" media="all">
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="/style.css">
 
   <title>{{ title }}</title>
 </head>
 
-<body class="d-flex flex-column min-vh-100">
-  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
-    {{ if url === "/" }}
-    <div class="navbar-brand"></div>
-    {{ else }}
-    <a class="navbar-brand" href="/">Wesley Clements</a>
-    {{ /if }}
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+<body class="flex flex-col min-h-screen">
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto align-items-end">
-        {{ for link of siteLinks }}
-        <li class="nav-item px-3">
-          <a class="nav-link" href="{{ `${ siteUrl.pathname === "/" ? "" : siteUrl.pathname }${ link.url }` }}">{{ link.text }}</a>
-        </li>
-        {{ /for }}
-      </ul>
-    </div>
+
+  <nav class="border-b border-gray-300">
+
+    <div
+      class="max-w-screen-xl flex flex-wrap items-center {{ url === "/" ? "justify-end" : "justify-between" }} mx-auto p-4 group"
+      aria-expanded="{{"false"}}"
+    >
+        {{ if url !== "/" }}
+        <a href="/">Wesley Clements</a>
+        {{ /if }}
+        <button type="button"
+          class="inline-flex md:hidden items-center justify-center p-2 w-10 h-10 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+          onclick="this.parentElement.ariaExpanded = this.parentElement.ariaExpanded === 'true' ? 'false' : 'true';"
+        >
+          <span class="sr-only">Open main menu</span>
+          <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M1 1h15M1 7h15M1 13h15" />
+          </svg>
+        </button>
+        <ul class="hidden flex-col items-end gap-x-4 gap-y-2 w-full max-md:mt-3 max-md:group-aria-expanded:flex md:flex md:flex-row md:w-auto">
+          {{ for link of siteLinks }}
+          <li>
+            <a
+              class="hover:underline"
+              href="{{ `${ siteUrl.pathname === " /" ? "" : siteUrl.pathname }${ link.url }` }}"
+            >
+              {{ link.text }}
+            </a>
+          </li>
+          {{ /for }}
+        </ul>
+      </div>
   </nav>
-  <main class="flex-grow-1">
+  <main class="grow">
     {{ content }}
   </main>
-  <footer class="footer mt-auto py-2 border-top border-light-gray">
-    <div class="container-fluid">
-      <div class="row ">
-        <div class="col-sm text-muted p-0">
-          <p class="grey ml-3 my-0">
-            © 2019 Wesley Clements.
-          </p>
-        </div>
+  <footer class="py-2 border-t border-gray-300">
+      <div class="max-w-screen-xl flex flex-row justify-between align-middle mx-auto px-4 text-gray-500">
+        <span>
+          © 2025 Wesley Clements.
+        </span>
         <div class="col-sm">
           <div class="float-sm-right">
-            <a href="https://www.linkedin.com/in/wesley-clements/" target="_blank" class="grey footer-link"
-              data-hint="LinkedIn">
+            <a
+              href="https://www.linkedin.com/in/wesley-clements/"
+              target="_blank"
+              class="hover:text-blue-600"
+              data-hint="LinkedIn"
+            >
               <i class="fab fa-fw fa-lg fa-linkedin" aria-hidden="true"></i>
             </a>
-            <a href="https://github.com/WesleyClements/" target="_blank" class="grey footer-link" data-hint="GitHub">
+            <a
+              href="https://github.com/WesleyClements/"
+              target="_blank"
+              class="hover:text-blue-600"
+              data-hint="GitHub"
+            >
               <i class="fab fa-fw fa-lg fa-github-square" aria-hidden="true"></i>
             </a>
-            <a href="mailto:wesley.clements@gmail.com" target="_blank" class="grey footer-link" data-hint="Email">
+            <a
+              href="mailto:wesley.clements+github@gmail.com"
+              target="_blank"
+              class="hover:text-blue-600"
+              data-hint="Email"
+            >
               <i class="fas fa-fw fa-lg fa-envelope-square" aria-hidden="true"></i>
             </a>
           </div>
         </div>
       </div>
-    </div>
   </footer>
-
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
-
-
 </body>
 
 </html>

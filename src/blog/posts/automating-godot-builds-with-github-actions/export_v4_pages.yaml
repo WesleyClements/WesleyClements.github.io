@@ -1,0 +1,248 @@
+name: Godot Export
+on:
+  workflow_dispatch:
+    inputs:
+      godot-version:
+        description: 'The version of Godot to use'
+        type: choice
+        required: true
+        default: '4.4'
+        options:
+          - '4.4'
+          - '4.3'
+env:
+  TEMPLATE_DIR: ~/.local/share/godot/export_templates/${{ inputs.godot-version }}.stable
+jobs:
+  cache-engine:
+    name: Cache Godot Engine
+    runs-on: ubuntu-latest
+    env:
+      ENGINE_FILE: Godot_v${{ inputs.godot-version }}-stable_linux.x86_64
+    outputs:
+      cache-key: ${{ steps.restore-engine-cache.outputs.cache-primary-key }}
+    steps:
+      - name: Restore Engine Cache
+        id: restore-engine-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: godot_stable_linux.x86_64
+          key: ${{ runner.os }}-godot-${{ inputs.godot-version }}-engine
+          lookup-only: true
+
+      - name: Download Godot
+        if: steps.restore-engine-cache.outputs.cache-hit != 'true'
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: godotengine/godot
+          tag: ${{ inputs.godot-version }}-stable
+          filename: ${{ env.ENGINE_FILE }}.zip
+          extract: true
+
+      - name: Make Godot Executable
+        if: steps.restore-engine-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          mv ${{ env.ENGINE_FILE }} godot_stable_linux.x86_64
+          chmod +x godot_stable_linux.x86_64
+
+      - name: Save Engine Cache
+        if: steps.restore-engine-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: godot_stable_linux.x86_64
+          key: ${{ steps.restore-engine-cache.outputs.cache-primary-key }}
+
+  cache-templates:
+    name: Cache Godot Templates
+    runs-on: ubuntu-latest
+    env:
+      TEMPLATE_ZIP: Godot_v${{ inputs.godot-version }}-stable_export_templates.tpz
+    outputs:
+      cache-key: ${{ steps.restore-export-template-cache.outputs.cache-primary-key }}
+    steps:
+      - name: Restore Export Templates Cache
+        id: restore-export-template-cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ${{ env.TEMPLATE_DIR }}/*release*
+            ${{ env.TEMPLATE_DIR }}/ios.zip
+            ${{ env.TEMPLATE_DIR }}/macos.zip
+          key: ${{ runner.os }}-godot-${{ inputs.godot-version }}-export-templates
+          lookup-only: true
+
+      - name: Download Godot Templates
+        if: steps.restore-export-template-cache.outputs.cache-hit != 'true'
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: godotengine/godot
+          tag: ${{ inputs.godot-version }}-stable
+          filename: ${{ env.TEMPLATE_ZIP }}
+
+      - name: Extract Godot Templates
+        if: steps.restore-export-template-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          mkdir -p ${{ env.TEMPLATE_DIR }}
+          unzip -j ${{ env.TEMPLATE_ZIP }} templates/* -d ${{ env.TEMPLATE_DIR }}
+
+      - name: Save Export Templates Cache
+        if: steps.restore-export-template-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ${{ env.TEMPLATE_DIR }}/*release*
+            ${{ env.TEMPLATE_DIR }}/ios.zip
+            ${{ env.TEMPLATE_DIR }}/macos.zip
+          key: ${{ steps.restore-export-template-cache.outputs.cache-primary-key }}
+
+  parse-export-presets:
+    name: Parse Export Presets
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.parse.outputs.matrix }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - name: Parse Export Presets
+        id: parse
+        shell: python
+        run: |
+          import os
+          import json
+          import re
+
+          # read the export_presets.cfg file
+          with open("export_presets.cfg", "r") as f:
+            lines = f.readlines()
+
+          # this will hold the export presets
+          export_presets = []
+
+          # parse the file and create a list of export presets
+          for line in lines:
+            if line.strip() == "": # skip empty lines
+              continue
+
+            # check if the line is a preset marker
+            match = re.match(r"^\[preset\.(\d+)\]$", line)
+            if match:
+              preset_index = int(match.group(1))
+              preset_name = None
+              export_path = None
+              continue
+
+            # check if the line is a key-value pair
+            match = re.match(r"^(.+)=\"(.*)\"$", line)
+            if match:
+              key = match.group(1)
+              value = match.group(2)
+              match key:
+                case "name":
+                  preset_name = value
+                case "export_path":
+                  export_path = value
+
+            # if we don't have both a preset name or export path yet continue
+            if preset_name == None or export_path == None:
+              continue
+
+            if preset_name == "":
+              # skip if preset name is empty
+              print(f"::warning::Skipped Preset {preset_index} \"\": name is empty")
+            elif export_path == "":
+              # skip if export path is empty
+              print(f"::warning::Skipped Preset {preset_index} \"{preset_name}\": export_path is empty")
+            else:
+              # add the preset to the matrix
+              export_presets.append({
+                "preset": preset_name,
+                "path": os.path.dirname(export_path),
+                "artifact-name": preset_name.lower().replace(" ", "-") # this will be used as the name of the artifact
+              })
+
+            # reset the preset name and export path
+            preset_name = None
+            export_path = None
+
+          matrix = {
+            "export": export_presets
+          }
+
+          # Print the matrix for debugging
+          print(matrix)
+
+          # write the export presets to the job output
+          with open(os.environ["GITHUB_OUTPUT"], "w") as f:
+            f.write(f"matrix={json.dumps(matrix, separators=(',', ':'))}\n")
+
+  export:
+    name: Export
+    needs: [cache-engine, cache-templates, parse-export-presets]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.parse-export-presets.outputs.matrix) }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - name: Restore Engine Cache
+        uses: actions/cache/restore@v4
+        with:
+          path: godot_stable_linux.x86_64
+          key: ${{ needs.cache-engine.outputs.cache-key }}
+          fail-on-cache-miss: true
+
+      - name: Restore Export Templates Cache
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ${{ env.TEMPLATE_DIR }}/*release*
+            ${{ env.TEMPLATE_DIR }}/ios.zip
+            ${{ env.TEMPLATE_DIR }}/macos.zip
+          key: ${{ needs.cache-templates.outputs.cache-key }}
+          fail-on-cache-miss: true
+
+      - name: Export Project
+        shell: bash
+        run: |
+          mkdir -p ${{ matrix.export.path }}
+          ./godot_stable_linux.x86_64 --headless --verbose --export-release "${{ matrix.export.preset }}"
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.export.artifact-name }}
+          path: ${{ matrix.export.path }}
+
+  deploy-gh-pages:
+    name: Deploy to GitHub Pages
+    needs: [export]
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: web
+          path: _site
+
+      - name: Upload GitHub Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
