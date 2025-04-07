@@ -470,9 +470,9 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           # the path of the files to cache
-          path: godot_stable_linux.x86_64 
+          path: godot_stable_linux.x86_64
           # use the cache key from the previous job
-          key: ${{ needs.cache-engine.outputs.cache-key }} 
+          key: ${{ needs.cache-engine.outputs.cache-key }}
           # this will fail the job if the cache is not found
           fail-on-cache-miss: true
 
@@ -485,9 +485,9 @@ jobs:
             ${{ env.TEMPLATE_DIR }}/ios.zip
             ${{ env.TEMPLATE_DIR }}/macos.zip
           # use the cache key from the previous job
-          key: ${{ needs.cache-templates.outputs.cache-key }} 
+          key: ${{ needs.cache-templates.outputs.cache-key }}
           # this will fail the job if the cache is not found
-          fail-on-cache-miss: true 
+          fail-on-cache-miss: true
 
       - name: Export Project
         shell: bash
@@ -581,7 +581,7 @@ for line in lines:
       "preset": preset_name,
       "path": os.path.dirname(export_path),
       # we will generate the artifact name from the preset name
-      "artifact-name": preset_name.lower().replace(" ", "-") 
+      "artifact-name": preset_name.lower().replace(" ", "-")
     })
 
   # reset the preset name and export path
@@ -686,12 +686,12 @@ jobs:
     needs: [export]
 
     # this is required to deploy to GitHub Pages
-    permissions: 
+    permissions:
       pages: write
       id-token: write
 
     # this creates a deployment environment on GitHub that points to the GitHub Pages URL
-    environment: 
+    environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
@@ -702,7 +702,7 @@ jobs:
         with:
           name: web
           # this is the path that actions/upload-pages-artifact@v3 uploads by default
-          path: _site 
+          path: _site
 
       - name: Upload GitHub Pages Artifact
         uses: actions/upload-pages-artifact@v3

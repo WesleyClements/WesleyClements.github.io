@@ -4,9 +4,9 @@
     "lume/cms/": "https://cdn.jsdelivr.net/gh/lumeland/cms@v0.11.1/"
   },
   "tasks": {
-    "lume": "echo \"import 'lume/cli.ts'\" | deno run --env-file=.env -A -",
-    "build": "deno task lume",
-    "cms": "deno task lume cms -p $PORT"
+    "dev": "deno run --env-file=.env -A main.ts --serve --watch",
+    "build": "deno run --env-file=.env -A main.ts",
+    "prettier": "deno --allow-read --allow-write --allow-sys --allow-env npm:prettier/bin/prettier.cjs --write \"**/*.{vto,css,html}\""
   },
   "compilerOptions": {
     "types": [

@@ -20,33 +20,33 @@ projects:
     deployment: "https://wesleyclements.github.io/asm-noise/"
 ---
 
-<header class="bg-slate-100 border-b border-gray-300 py-8">
+<header class="border-b border-gray-300 bg-slate-100 py-8">
   <div class="text-center text-gray-900">
     <h1 class="text-6xl font-light">Projects</h1>
   </div>
 </header>
-<ul class="w-fit mx-auto px-4 py-4 text-gray-900 divide-y-2 divide-gray-300">
+<ul class="mx-auto w-fit divide-y-2 divide-gray-300 px-4 py-4 text-gray-900">
   {{ for project of projects }}
-  <li class="max-w-prose box-content px-16 pb-2 pt-4 first:pt-0">
+  <li class="box-content max-w-prose px-16 pb-2 pt-4 first:pt-0">
     {{ if project.deployment }}
-    <a class="hover:text-cyan-600" href="{{ project.deployment}}" target="_blank">
-      <h3 class="text-2xl">
-        {{ project.name }}
-      </h3>
+    <a
+      class="hover:text-cyan-600"
+      href="{{ project.deployment }}"
+      target="_blank"
+    >
+      <h3 class="text-2xl">{{ project.name }}</h3>
     </a>
     {{ else }}
-    <h3 class="text-2xl">
-      {{ project.name }}
-    </h3>
+    <h3 class="text-2xl">{{ project.name }}</h3>
     {{ /if }}
-    <a class="italic text-cyan-600 hover:text-cyan-900 hover:underline" href="{{ project.github }}" target="_blank">
-      <small>
-        {{ project.github }}
-      </small>
+    <a
+      class="italic text-cyan-600 hover:text-cyan-900 hover:underline"
+      href="{{ project.github }}"
+      target="_blank"
+    >
+      <small> {{ project.github }} </small>
     </a>
-    <p class="mt-2">
-      {{ project.description }}
-    </p>
+    <p class="mt-2">{{ project.description }}</p>
   </li>
   {{ /for }}
 </ul>

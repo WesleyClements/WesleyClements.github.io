@@ -39,8 +39,6 @@ jobs:
         run: deno task build
       - name: Upload GitHub Pages Artifact
         uses: actions/upload-pages-artifact@v3
-        with:
-          path: '_site'
 
   deploy-gh-pages:
     name: Deploy to GitHub Pages

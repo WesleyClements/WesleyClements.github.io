@@ -2,48 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @media (prefers-color-scheme: dark) {
-	.shiki-light {
-		display: none;
-	}
+  .shiki-light {
+    @apply hidden;
+  }
 }
 
-@media (prefers-color-scheme: light),
-(prefers-color-scheme: no-preference) {
-	.shiki-dark {
-		display: none;
-	}
+@media (prefers-color-scheme: light), (prefers-color-scheme: no-preference) {
+  .shiki-dark {
+    @apply hidden;
+  }
 }
 
 .shiki {
-	padding: 1.0rem;
-	border-radius: 0.5rem;
-	margin-top: 1rem;
-	margin-bottom: 1rem;
-	overflow-x: auto;
+  @apply my-4 overflow-x-auto rounded-lg p-4;
 
-	scrollbar-color: var(--shiki-scrollbar-color) transparent;
+  scrollbar-color: var(--shiki-scrollbar-color) transparent;
 
-	&.shiki-light {
-		--shiki-scrollbar-color: rgba(0, 0, 0, 0.5);
+  &.shiki-light {
+    --shiki-scrollbar-color: rgba(0, 0, 0, 0.5);
 
-		&::hover {
-			--shiki-scrollbar-color: rgba(0, 0, 0, 0.7);
-		}
-	}
+    &::hover {
+      --shiki-scrollbar-color: rgba(0, 0, 0, 0.7);
+    }
+  }
 
-	&.shiki-dark {
-		--shiki-scrollbar-color: rgba(255, 255, 255, 0.5);
+  &.shiki-dark {
+    --shiki-scrollbar-color: rgba(255, 255, 255, 0.5);
 
-		&::hover {
-			--shiki-scrollbar-color: rgba(255, 255, 255, 0.7);
-		}
-	}
+    &::hover {
+      --shiki-scrollbar-color: rgba(255, 255, 255, 0.7);
+    }
+  }
 
-	@media (width < 1040px) {
-		& {
-			border-radius: 0;
-		}
-	}
+  @media (width < 1040px) {
+    & {
+      @apply rounded-none;
+    }
+  }
 }
