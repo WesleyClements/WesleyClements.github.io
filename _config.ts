@@ -7,7 +7,6 @@ import postcss from "lume/plugins/postcss.ts";
 import resolveUrls from "lume/plugins/resolve_urls.ts";
 import minifyHTML from "lume/plugins/minify_html.ts";
 
-import TailwindConfig from "./tailwind.config.ts";
 import env from "./src/env.ts";
 
 const site = lume({
@@ -40,12 +39,24 @@ const site = lume({
   },
 });
 
+site.filter("date", (input) => {
+  const date = new Date(input);
+  if (isNaN(date.getTime())) {
+    throw new Error(`Invalid date: ${input}`);
+  }
+  return date.toLocaleDateString("en-GB", {
+    year: "numeric",
+    month: "long",
+    day: "2-digit",
+  });
+});
+
 site
   .copy([".yaml"])
   .copyRemainingFiles((path) => Boolean(path.match(/\/posts\//)))
   .use(tailwindcss({
     extensions: [".html", ".md", ".vto"],
-    options: TailwindConfig,
+    options: await import("./tailwind.config.ts"),
   }))
   .use(postcss())
   .use(resolveUrls())

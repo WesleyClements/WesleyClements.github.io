@@ -1,9 +1,11 @@
 ---
 title: Automating Godot Builds with Github Actions
+description: Automate your Godot game exports using GitHub Actions to speed up your workflow and get feedback faster.
 tags:
   - Godot
   - Github Actions
   - CI/CD
+date: 2025-04-07
 draft: true
 ---
 

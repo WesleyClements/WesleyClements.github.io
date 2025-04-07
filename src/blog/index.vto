@@ -2,12 +2,23 @@
 title: "Wesley Clements: Blog"
 ---
 
+<header class="border-b border-gray-300 bg-slate-100 py-8">
+  <div class="text-center text-gray-900">
+    <h1 class="text-6xl font-light">Blog</h1>
+  </div>
+</header>
 <ul class="mx-auto w-fit divide-y-2 divide-gray-300 px-4 py-4 text-gray-900">
   {{ for post of search.pages("url^=/blog/ url!=/blog/") }}
-  <li class="box-content max-w-prose px-16 pb-2 pt-4 first:pt-0">
-    <a class="underline hover:text-cyan-600" href="{{ post.url }}">
-      <h3 class="text-2xl">{{ post.title }}</h3>
-    </a>
+  <li class="px-16 pb-2 pt-4 first:pt-0">
+    <div>
+      <a class="hover:text-cyan-600" href="{{ post.url }}">
+        <h3 class="text-2xl">{{ post.title }}</h3>
+      </a>
+      <small class="underlined italic text-gray-500">
+        {{ post.date |> date }}
+      </small>
+    </div>
+    <p class="mt-2 max-w-prose">{{ post.description }}</p>
   </li>
   {{ /for }}
 </ul>

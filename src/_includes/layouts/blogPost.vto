@@ -2,11 +2,15 @@
 layout: layouts/main.vto
 ---
 
+<header class="border-b border-gray-300 bg-slate-100 py-8">
+  <div class="mx-auto max-w-screen-lg text-gray-900">
+    <h2 class="text-4xl font-light max-[1056px]:mx-4">{{ title }}</h2>
+    <small class="italic text-gray-500 underline"> {{ date |> date }} </small>
+  </div>
+</header>
 <article
-  class="mx-auto my-6 max-w-screen-lg [&>:not(:has(:is(img,pre)))]:px-4 [&_:is(h2,h3,hr)+p]:indent-10 [&_:not(pre)>code]:rounded [&_:not(pre)>code]:border [&_:not(pre)>code]:border-gray-300 [&_:not(pre)>code]:bg-gray-100 [&_:not(pre)>code]:px-1 [&_a]:text-cyan-600 [&_a]:hover:text-cyan-900 [&_a]:hover:underline [&_h3]:my-6 [&_h3]:border-b [&_h3]:border-gray-300 [&_h3]:pb-4 [&_h3]:text-2xl [&_img]:max-w-none [&_p:has(img)]:mx-auto [&_p:has(img)]:my-4 [&_p:has(img)]:max-w-fit [&_p:has(img)]:overflow-x-auto [&_p:has(img)]:border-solid [&_p:has(img)]:border-gray-300 [&_p:has(img)]:shadow-gray-500/50 [&_p:not(:has(img))]:mb-4 [&_ul]:ml-8 [&_ul]:list-inside [&_ul_li]:mb-4 [&_ul_li]:list-['⁃_'] [&_ul_li]:text-gray-900 [&_ul_li]:first:mt-0 [&_ul_li]:last:mb-0"
+  class="mx-auto my-6 max-w-screen-lg [&>:not(:has(:is(img,pre)))]:max-[1056px]:mx-4 [&_:is(h2,h3,hr)+p]:indent-10 [&_:not(pre)>code]:rounded [&_:not(pre)>code]:border [&_:not(pre)>code]:border-gray-300 [&_:not(pre)>code]:bg-gray-100 [&_:not(pre)>code]:px-1 [&_a]:text-cyan-600 [&_a]:hover:text-cyan-900 [&_a]:hover:underline [&_h3]:my-6 [&_h3]:border-b [&_h3]:border-gray-300 [&_h3]:pb-4 [&_h3]:text-2xl [&_img]:max-w-none [&_p:has(img)]:mx-auto [&_p:has(img)]:my-4 [&_p:has(img)]:max-w-fit [&_p:has(img)]:overflow-x-auto [&_p:has(img)]:border-solid [&_p:has(img)]:border-gray-300 [&_p:has(img)]:shadow-gray-500/50 [&_p:not(:has(img))]:mb-4 [&_ul]:ml-8 [&_ul]:list-inside [&_ul_li]:mb-4 [&_ul_li]:list-['⁃_'] [&_ul_li]:text-gray-900 [&_ul_li]:first:mt-0 [&_ul_li]:last:mb-0"
 >
-  <h2 class="text-4xl">{{ title }}</h2>
-  <hr class="my-4" />
   {{ content }}
 </article>
 
