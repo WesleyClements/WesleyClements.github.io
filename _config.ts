@@ -40,7 +40,18 @@ const site = lume({
 });
 
 site.filter("date", (input) => {
-  const date = new Date(input);
+  const date = input instanceof Date
+    ? input
+    : typeof input === "string"
+    ? new Date(
+      Date.parse(input) + new Date().getTimezoneOffset() * 60 * 1000,
+    )
+    : typeof input === "number"
+    ? new Date(input + new Date().getTimezoneOffset() * 60 * 1000)
+    : null;
+  if (!date) {
+    throw new Error(`Invalid date: ${input}`);
+  }
   if (isNaN(date.getTime())) {
     throw new Error(`Invalid date: ${input}`);
   }
