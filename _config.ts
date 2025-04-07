@@ -1,7 +1,6 @@
 import lume from "lume/mod.ts";
 
 import Skiki from "npm:markdown-it-shiki";
-import MIA from "npm:markdown-it-attrs";
 
 import tailwindcss from "lume/plugins/tailwindcss.ts";
 import postcss from "lume/plugins/postcss.ts";
@@ -35,10 +34,6 @@ const site = lume({
             light: "github-light",
           },
         },
-      ],
-      [
-        MIA,
-        {},
       ],
     ],
     useDefaultPlugins: true,

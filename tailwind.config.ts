@@ -1,4 +1,4 @@
-import type { Config } from "npm:tailwindcss@3";
+import type { Config } from "npm:tailwindcss@4";
 
 export default {
   content: ["./src/**/*.{html,vto,md}"],
