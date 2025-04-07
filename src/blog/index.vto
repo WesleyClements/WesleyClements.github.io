@@ -8,7 +8,7 @@ title: "Wesley Clements: Blog"
   </div>
 </header>
 <ul class="mx-auto w-fit divide-y-2 divide-gray-300 px-4 py-4 text-gray-900">
-  {{ for post of search.pages("url^=/blog/ url!=/blog/") }}
+  {{ for post of search.pages("url^=/blog/ url!=/blog/").toSorted((a, b) => Date.parse(b.date) - Date.parse(a.date)) }}
   <li class="px-16 pb-2 pt-4 first:pt-0">
     <div>
       <a class="hover:text-cyan-600" href="{{ post.url }}">
