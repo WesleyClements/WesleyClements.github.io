@@ -13,30 +13,229 @@ layout: layouts/main.vto
   </div>
 </header>
 <article
-  class="mx-auto my-6 max-w-screen-lg [&>:is(h2,h3,hr)+p]:indent-10 [&>:not(:has(:is(img,pre)))]:max-[1056px]:mx-4 [&>p:first-child]:indent-10 [&_:not(pre)>code]:rounded [&_:not(pre)>code]:border [&_:not(pre)>code]:border-gray-300 [&_:not(pre)>code]:bg-gray-100 [&_:not(pre)>code]:px-1 [&_:not(pre)>code]:dark:border-gray-700 [&_:not(pre)>code]:dark:bg-gray-800 [&_a]:text-cyan-600 [&_a]:hover:text-cyan-900 [&_a]:hover:underline [&_h3]:my-6 [&_h3]:border-b [&_h3]:border-gray-300 [&_h3]:pb-4 [&_h3]:text-2xl [&_h3]:dark:border-gray-700 [&_img]:max-w-screen-lg [&_p:has(img)]:mx-auto [&_p:has(img)]:my-4 [&_p:has(img)]:max-w-fit [&_p:has(img)]:overflow-x-auto [&_p:has(img)]:border-solid [&_p:has(img)]:border-gray-300 [&_p:has(img)]:shadow-gray-400/50 [&_p:has(img)]:lg:overflow-x-hidden [&_p:has(img)]:dark:border-gray-700 [&_p:has(img)]:dark:shadow-gray-900/50 [&_p:not(:has(img))]:mb-4 [&_ul]:ml-8 [&_ul]:list-inside [&_ul_li]:mb-4 [&_ul_li]:list-['⁃_'] [&_ul_li]:text-gray-900 [&_ul_li]:first:mt-0 [&_ul_li]:last:mb-0 [&_ul_li]:dark:text-gray-100"
+  class="mx-auto mb-10 mt-6 max-w-screen-lg [&>:is(h2,h3,hr)+p]:indent-10 [&>:not(:has(:is(img,pre)))]:max-[1056px]:mx-4 [&>p:first-child]:indent-10 [&_:not(pre)>code]:rounded [&_:not(pre)>code]:border [&_:not(pre)>code]:border-gray-300 [&_:not(pre)>code]:bg-gray-100 [&_:not(pre)>code]:px-1 [&_:not(pre)>code]:dark:border-gray-700 [&_:not(pre)>code]:dark:bg-zinc-800 [&_a:hover]:text-cyan-900 [&_a:hover]:underline [&_a:hover]:dark:text-gray-800 [&_a]:text-cyan-600 [&_a]:dark:text-slate-400 [&_h3]:my-6 [&_h3]:border-b [&_h3]:border-gray-300 [&_h3]:pb-4 [&_h3]:text-2xl [&_h3]:dark:border-gray-700 [&_img]:max-w-screen-lg [&_p:has(img)]:mx-auto [&_p:has(img)]:my-4 [&_p:has(img)]:max-w-fit [&_p:has(img)]:overflow-x-auto [&_p:has(img)]:border-solid [&_p:has(img)]:border-gray-300 [&_p:has(img)]:shadow-gray-400/50 [&_p:has(img)]:lg:overflow-x-hidden [&_p:has(img)]:dark:border-gray-700 [&_p:has(img)]:dark:shadow-gray-900/50 [&_p:not(:has(img))]:mb-4 [&_ul]:ml-8 [&_ul]:list-inside [&_ul_li]:mb-4 [&_ul_li]:list-['⁃_'] [&_ul_li]:text-gray-900 [&_ul_li]:first:mt-0 [&_ul_li]:last:mb-0 [&_ul_li]:dark:text-gray-100"
 >
   {{ content }}
 </article>
 
-<script>
-  {
-    const checkImageOverflow = () => {
-      const imageContainers = document.querySelectorAll("article>p:has(img)");
-      console.log(imageContainers);
-      imageContainers.forEach((container) => {
-        if (container.scrollWidth > container.clientWidth) {
-          container.classList.remove("border", "rounded-lg", "shadow-md");
-        } else {
-          container.classList.add("border", "rounded-lg", "shadow-md");
-        }
-      });
-    };
+<div class="mx-auto mb-8 max-w-screen-lg max-[1056px]:mx-4">
+  <h3 class="mb-4 text-2xl">Leave a comment</h3>
+  <form id="comment-form" class="flex flex-col gap-4">
+    <input
+      type="text"
+      name="author"
+      placeholder="Your name"
+      class="rounded-lg border border-gray-300 px-4 py-2 dark:border-gray-700 dark:bg-zinc-800 dark:text-gray-100"
+    />
+    <textarea
+      name="text"
+      placeholder="Your comment"
+      class="rounded-lg border border-gray-300 px-4 py-2 dark:border-gray-700 dark:bg-zinc-800 dark:text-gray-100"
+    ></textarea>
+    <button
+      type="submit"
+      class="rounded-lg bg-cyan-600 px-4 py-2 text-white hover:bg-cyan-900 dark:bg-slate-700 dark:hover:bg-gray-800"
+    >
+      Submit
+    </button>
+  </form>
+  <div class="flex hidden flex-col gap-2 mt-4 pt-4 border-t border-gray-300 pb-4 dark:border-gray-700" id="comments-container"></div>
+</div>
 
-    checkImageOverflow();
-    window.addEventListener("resize", checkImageOverflow);
-
-    document.querySelectorAll(".shiki-light").forEach((code) => {
-      code.style.backgroundColor = "";
+<script type="module">
+  const checkImageOverflow = () => {
+    const imageContainers = document.querySelectorAll("article>p:has(img)");
+    imageContainers.forEach((container) => {
+      if (container.scrollWidth > container.clientWidth) {
+        container.classList.remove("border", "rounded-lg", "shadow-md");
+      } else {
+        container.classList.add("border", "rounded-lg", "shadow-md");
+      }
     });
+  };
+
+  checkImageOverflow();
+  window.addEventListener("resize", checkImageOverflow);
+</script>
+
+<script type="module">
+  document.querySelectorAll(".shiki-light").forEach((code) => {
+    code.style.backgroundColor = "";
+  });
+</script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+  import {
+    getAnalytics,
+    logEvent,
+  } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
+  import {
+    getDatabase,
+    ref,
+    push,
+    set,
+    update,
+    serverTimestamp,
+    onValue,
+    onChildAdded,
+  } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+
+  const postName = location.pathname.match(/\/([^/]+)\/?(?:#.*)?$/).at(-1);
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBEX-Mo53p8JwH7BxAPuRuHIEjUmvnfIes",
+    authDomain: "wesleyclement-github-io.firebaseapp.com",
+    databaseURL: "https://wesleyclement-github-io-default-rtdb.firebaseio.com",
+    projectId: "wesleyclement-github-io",
+    storageBucket: "wesleyclement-github-io.firebasestorage.app",
+    messagingSenderId: "205212224124",
+    appId: "1:205212224124:web:e7276ce8026aae5cc957f9",
+    measurementId: "G-YZCQ4B528T",
+  };
+
+  const app = initializeApp(firebaseConfig);
+
+  const analytics = getAnalytics(app);
+  const database = getDatabase(app);
+
+  logEvent(analytics, "page_view", {
+    page_title: document.title,
+    page_location: window.location.href,
+    page_path: window.location.pathname,
+  });
+
+  const commentsRef = ref(database, "posts/" + postName + "/comments");
+
+  const commentsContainer = document.getElementById("comments-container");
+
+  let lastComment = null;
+
+  const getDisplayTime = (timestamp) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffSecs = Math.floor(diffMs / 1000);
+    const diffMins = Math.floor(diffSecs / 60);
+    const diffHours = Math.floor(diffMins / 60);
+    const diffDays = Math.floor(diffHours / 24);
+    
+    if (diffSecs < 60) {
+      return "Just now";
+    } else if (diffMins < 60) {
+      return `${diffMins} ${diffMins === 1 ? 'minute' : 'minutes'} ago`;
+    } else if (diffHours < 24) {
+      return `${diffHours} ${diffHours === 1 ? 'hour' : 'hours'} ago`;
+    } else if (diffDays < 2) {
+      return "1 day ago";
+    } else {
+      return date.toLocaleDateString();
+    }
   }
+
+  const displayComment = (comment) => {
+    const commentElement = document.createElement("div");
+    commentElement.className =
+      "p-4 bg-gray-50 rounded-lg border border-gray-200 dark:bg-zinc-800 dark:border-gray-700";
+
+    if (comment.id) {
+      commentElement.dataset.id = comment.id;
+    }
+    if (comment.local) {
+      commentElement.dataset
+    }
+
+    const textElement = document.createElement("p");
+    textElement.className = "text-gray-700 dark:text-gray-300 mb-2";
+    textElement.textContent = comment.text;
+
+    const footerElement = document.createElement("div");
+    footerElement.className = "flex justify-between items-center";
+
+    const authorElement = document.createElement("h4");
+    authorElement.className =
+      "text-sm font-medium text-gray-900 dark:text-white";
+    authorElement.textContent = comment.author;
+
+    const timestampElement = document.createElement("span");
+    timestampElement.className = "text-sm text-gray-500 dark:text-gray-400";
+    timestampElement.textContent = getDisplayTime(comment.timestamp);
+
+    footerElement.append(authorElement, timestampElement);
+
+    commentElement.append(textElement, footerElement);
+    commentsContainer.prepend(commentElement);
+  };
+
+  onValue(commentsRef, (snapshot) => {
+    const comments = Object.entries(snapshot.val() ?? {})
+        .filter(([id, comment]) => {
+          if (comment.verified) {
+            return true
+          }
+          if (!lastComment) {
+            return false
+          }
+          if (comment.author !== lastComment.author) {
+            return false
+          }
+          if (comment.text !== lastComment.text) {
+            return false
+          }
+          return true;
+        })
+        .map(([id, comment]) => ({id, ...comment}))
+        .toSorted((a, b) => {
+          return a.timestamp - b.timestamp;
+        })
+
+    if (comments.length === 0) {
+      commentsContainer.classList.add("hidden");
+    } else {
+      commentsContainer.classList.remove("hidden");
+      
+      const existingCommentElements = Array.from(commentsContainer.children);
+      for (const comment of comments) {
+        const existingCommentElement = existingCommentElements.find(
+          (el) => el.dataset.id === comment.id,
+        );
+        if (existingCommentElement) {
+          continue;
+        }
+        displayComment(comment);
+      }
+    }
+  });
+
+  document
+    .querySelector("#comment-form")
+    .addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const { author, text } = Object.fromEntries(
+        new FormData(event.target).entries(),
+      );
+
+      if (!author || !text) {
+        console.log("Author and text are required");
+        return;
+      }
+
+      const newCommentRef = push(commentsRef);
+
+      try {
+        lastComment = {
+          author,
+          text,
+        }
+        await set(newCommentRef, {
+          author,
+          text,
+          timestamp: serverTimestamp(),
+        });
+        event.target.reset();
+      } catch (error) {
+        console.error("Error writing new comment:", error);
+      }
+    });
 </script>
