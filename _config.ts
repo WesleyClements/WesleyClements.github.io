@@ -2,10 +2,11 @@ import lume from "lume/mod.ts";
 
 import Skiki from "npm:markdown-it-shiki";
 
-import tailwindcss from "lume/plugins/tailwindcss.ts";
+import minifyHTML from "lume/plugins/minify_html.ts";
 import postcss from "lume/plugins/postcss.ts";
 import resolveUrls from "lume/plugins/resolve_urls.ts";
-import minifyHTML from "lume/plugins/minify_html.ts";
+import robots from "lume/plugins/robots.ts";
+import tailwindcss from "lume/plugins/tailwindcss.ts";
 
 import env from "./src/env.ts";
 
@@ -71,6 +72,7 @@ site
   }))
   .use(postcss())
   .use(resolveUrls())
-  .use(minifyHTML());
+  .use(minifyHTML())
+  .use(robots());
 
 export default site;
