@@ -19,17 +19,21 @@ projects:
     deployment: "https://wesleyclements.github.io/asm-noise/"
 ---
 
-<header class="border-b border-gray-300 bg-slate-100 py-8">
-  <div class="text-center text-gray-900">
+<header
+  class="border-b border-gray-300 bg-slate-100 py-8 dark:border-gray-200 dark:bg-slate-500"
+>
+  <div class="text-center text-gray-900 dark:text-gray-100">
     <h1 class="text-6xl font-light">Projects</h1>
   </div>
 </header>
-<ul class="mx-auto w-fit divide-y-2 divide-gray-300 px-4 py-4 text-gray-900">
+<ul
+  class="mx-auto w-fit divide-y-2 divide-gray-300 px-4 py-4 text-gray-900 dark:divide-gray-700 dark:text-gray-300"
+>
   {{ for project of projects }}
   <li class="px-16 pb-2 pt-4 first:pt-0">
     {{ if project.deployment }}
     <a
-      class="hover:text-cyan-600"
+      class="hover:text-cyan-600 dark:hover:text-slate-400"
       href="{{ project.deployment }}"
       target="_blank"
     >
@@ -39,7 +43,7 @@ projects:
     <h3 class="text-2xl">{{ project.name }}</h3>
     {{ /if }}
     <a
-      class="italic text-cyan-600 hover:text-cyan-900 hover:underline"
+      class="italic text-cyan-600 hover:text-cyan-900 hover:underline dark:text-gray-100 dark:hover:text-slate-400"
       href="{{ project.github }}"
       target="_blank"
     >

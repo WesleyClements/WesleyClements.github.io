@@ -8,9 +8,14 @@
   }
 }
 
-@media (prefers-color-scheme: light), (prefers-color-scheme: no-preference) {
+@media (prefers-color-scheme: light),
+(prefers-color-scheme: no-preference) {
   .shiki-dark {
     @apply hidden;
+  }
+
+  .shiki-light {
+    @apply border border-gray-300 bg-gray-50;
   }
 }
 
