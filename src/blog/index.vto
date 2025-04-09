@@ -3,7 +3,7 @@ title: "Wesley Clements: Blog"
 ---
 
 <header
-  class="border-b border-gray-300 bg-slate-100 py-8 dark:border-gray-200 dark:bg-slate-500"
+  class="border-b border-gray-300 bg-slate-100 py-8 dark:border-gray-400 dark:bg-zinc-600"
 >
   <div class="text-center text-gray-900 dark:text-gray-100">
     <h1 class="text-6xl font-light">Blog</h1>
@@ -29,3 +29,23 @@ title: "Wesley Clements: Blog"
   </li>
   {{ /for }}
 </ul>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+  import {
+    getAnalytics,
+    logEvent,
+  } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBEX-Mo53p8JwH7BxAPuRuHIEjUmvnfIes",
+    projectId: "wesleyclement-github-io",
+    appId: "1:205212224124:web:e7276ce8026aae5cc957f9",
+    measurementId: "G-YZCQ4B528T",
+  };
+
+  const app = initializeApp(firebaseConfig);
+
+  const analytics = getAnalytics(app);
+
+</script>

@@ -3,7 +3,7 @@ layout: layouts/main.vto
 ---
 
 <header
-  class="border-b border-gray-300 bg-slate-100 py-8 dark:border-gray-200 dark:bg-slate-500"
+  class="border-b border-gray-300 bg-slate-100 py-8 dark:border-gray-400 dark:bg-zinc-600"
 >
   <div class="mx-auto max-w-screen-lg text-gray-900 dark:text-gray-100">
     <h2 class="text-4xl font-light max-[1056px]:mx-4">{{ title }}</h2>
@@ -85,12 +85,9 @@ layout: layouts/main.vto
 
   const firebaseConfig = {
     apiKey: "AIzaSyBEX-Mo53p8JwH7BxAPuRuHIEjUmvnfIes",
-    authDomain: "wesleyclement-github-io.firebaseapp.com",
-    databaseURL: "https://wesleyclement-github-io-default-rtdb.firebaseio.com",
-    projectId: "wesleyclement-github-io",
-    storageBucket: "wesleyclement-github-io.firebasestorage.app",
-    messagingSenderId: "205212224124",
     appId: "1:205212224124:web:e7276ce8026aae5cc957f9",
+    projectId: "wesleyclement-github-io",
+    databaseURL: "https://wesleyclement-github-io-default-rtdb.firebaseio.com",
     measurementId: "G-YZCQ4B528T",
   };
 
@@ -99,10 +96,8 @@ layout: layouts/main.vto
   const analytics = getAnalytics(app);
   const database = getDatabase(app);
 
-  logEvent(analytics, "page_view", {
-    page_title: document.title,
-    page_location: window.location.href,
-    page_path: window.location.pathname,
+  logEvent(analytics, "blog_post_view", {
+    post_name: postName,
   });
 
   const commentsRef = ref(database, "posts/" + postName + "/comments");
